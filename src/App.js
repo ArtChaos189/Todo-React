@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
 
-function App() {
+import { Header } from "./components/Header/Header";
+
+import { AddTodo } from "./components/AddTodo/AddTodo";
+
+import { TodoList } from "./components/TodoList/TodoList";
+
+import { Search } from "./components/Search/Search";
+
+import "./App.css";
+
+const todoList = [
+  {
+    id: 1,
+    title: "first todo",
+  },
+  {
+    id: 2,
+    title: "second todo",
+  },
+  {
+    id: 3,
+    title: "third todo",
+  },
+];
+
+export function App() {
+  const [todo, setTodo] = useState(todoList);
+
+  const [filteredTodo, setFilteredTodo] = useState([]);
+
+  console.log("ФИЛЬТЕР", filteredTodo);
+
+  useEffect(() => {
+    setFilteredTodo(todo);
+  }, [todo]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <AddTodo setTodo={setTodo} />
+      <TodoList filteredTodo={filteredTodo} setFilteredTodo={setFilteredTodo} setTodo={setTodo} todo={todo} />
+      <Search todo={todo} setFilteredTodo={setFilteredTodo} />
     </div>
   );
 }
-
-export default App;
